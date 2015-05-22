@@ -1,0 +1,12 @@
+<launch>
+  <node pkg="transfer_station" type="transfer_node" name="transfer" output="screen">
+    <rosparam>
+      ipc_name: "transfer"
+      routes:
+        positionA:
+          type: "position"
+          ros_topic: "/test/test"
+          ipc_message: "test"
+    </rosparam>
+  </node>
+</launch>

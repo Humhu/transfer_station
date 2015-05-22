@@ -1,0 +1,13 @@
+<launch>
+  <node pkg="transfer_station" type="ros_lcm_transfer_node" name="transfer" output="screen">
+    <rosparam>
+      ipc_name: "transfer"
+      routes:
+        chatter:
+          type: "position"
+          direction: "ros_to_ipc"
+          ros_topic: "/chatter"
+          ipc_message: "chatter"
+    </rosparam>
+  </node>
+</launch>
