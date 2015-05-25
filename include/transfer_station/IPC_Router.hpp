@@ -2,7 +2,7 @@
 #define _XFERS_I2R_ROUTER_H_
 
 #include <ros/ros.h>
-#include "transfer_station/IPCInterface.h"
+#include "transfer_station/IPC_Interface.h"
 
 #include <boost/shared_ptr.hpp>
 

@@ -9,6 +9,8 @@
 
 #include <unordered_map>
 
+#include "transfer_station/Serializer.h"
+
 namespace transfer_station
 {
 	
