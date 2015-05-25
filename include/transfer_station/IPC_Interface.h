@@ -160,6 +160,7 @@ namespace transfer_station
 	std::string get_format_name() 
 	{
 		static_assert( !std::is_same<T,T>(), "You must specialize get_format_name()" );
+		return "";
 	}
 	
 	/*! \brief Returns the format specifier string for an IPC format. Must be specialized. */
@@ -167,6 +168,7 @@ namespace transfer_station
 	std::string get_format_specifier() 
 	{
 		static_assert( !std::is_same<T,T>(), "You must specialize get_format_specifier()" );
+		return "";
 	}
 	
 	/*! \brief Declares an IPC format with the specified interface. */
@@ -181,6 +183,7 @@ namespace transfer_station
 	std::string get_message_specifier() 
 	{
 		static_assert( !std::is_same<T,T>(), "You must specialize get_message_specifier()" );
+		return "";
 	}
 	
 	/*! \brief Declares all the IPC formats used by an IPC message type on the specified interface. 
