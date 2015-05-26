@@ -14,24 +14,6 @@
 namespace transfer_station
 {
 
-	/*! \brief Parameters class that returns properties associated with formats.
-	 * \note This is necessary because we need the format structs to be plain
-	 * C structs so they will be packed correctly for serialization upon
-	 * compilation. */
-	template< class T >
-	class IPCFormat
-	{
-	public:
-		static std::string get_format_name() {
-			static_assert( !std::is_same<T,T>(), "You must specialize IPCFormat::get_format_name()" );
-			return "";
-		}
-		static std::string get_format_specifier() {
-			static_assert( !std::is_same<T,T>(), "You must specialize IPCFormat::get_format_specifier()" );
-			return "";
-		}
-	};
-	
 	/*! \brief Wrapper class around IPC. */
 	class IPCInterface
 	{
@@ -172,20 +154,35 @@ namespace transfer_station
 		}
 		
 	};
+
+	/*! \brief Returns the format name for an IPC format. Must be specialized. */
+	template< class T >
+	std::string get_format_name() 
+	{
+		static_assert( !std::is_same<T,T>(), "You must specialize get_format_name()" );
+		return "";
+	}
+
+	/*! \brief Returns the format specifier string for an IPC format. Must be specialized. */
+	template< class T >
+	std::string get_format_specifier() 
+	{
+		static_assert( !std::is_same<T,T>(), "You must specialize get_format_specifier()" );
+		return "";
+	}
 	
 	/*! \brief Declares an IPC format with the specified interface. */
 	template< class T >
 	void define_format( IPCInterface& ipc )
 	{
-		ipc.DefineFormat( T::get_format_name(), T::get_format_specifier() );
+		ipc.DefineFormat( get_format_name<T>(), get_format_specifier<T>() );
 	}
 	
 	/*! \brief Returns the specifier string for an IPC message type. Must be specialized. */
 	template< class T >
 	std::string get_message_specifier() 
 	{
-		static_assert( !std::is_same<T,T>(), "You must specialize get_message_specifier()" );
-		return "";
+		return get_format_specifier<T>();
 	}
 	
 	/*! \brief Declares all the IPC formats used by an IPC message type on the specified interface. 
