@@ -30,24 +30,26 @@ namespace transfer_station
 		typedef boost::shared_ptr<RouterI2R> Ptr;
 		
 		RouterI2R( const std::string& ipcName, IPCInterface& ipc,
-				const std::string& rosName, ros::NodeHandle& ros )
-			: ipcMessageName( ipcName ), ipcInterface( ipc ),
-			  rosTopicName( rosName ), rosNode( ros )
+				const std::string& rosName, ros::NodeHandle& ros ) :
+			ipcMessageName( ipcName ), ipcInterface( ipc ),
+			rosTopicName( rosName ), rosNode( ros )
 		{
 			rosPublisher = rosNode.advertise<ROSMsg>( rosTopicName, 1 );
 			
-			IPCMsg::Define( ipcName, ipc );
+			define_message< IPCMsg >( ipcName, ipc );
+
 			IPCInterface::MessageCallback cb =
-			boost::bind( &RouterI2R<IPCMsg,ROSMsg>::IPCCallback, this, _1 );
-			ipcInterface.Subscribe( ipcMessageName, cb );
+					boost::bind( &RouterI2R<IPCMsg,ROSMsg>::IPCCallback, this, _1 );
+			ipcInterface.Subscribe( ipcName, cb );
 		}
 		
 		/*! \brief Callback used by IPC. */
 		void IPCCallback( void* callData )
 		{
 // 			std::cout << "Router received IPC message [" << ipcMessageName << "]" << std::endl;
-			IPCMsg ipcMsg( ipcMessageName );
-			ipcMsg.Deserialize( callData );
+			IPCMsg ipcMsg;
+			deserialize_message<IPCMsg>( callData, &ipcMsg );
+			
 			ROSMsg rosMsg;
 			ipc_to_ros<IPCMsg, ROSMsg>( ipcMsg, rosMsg );
 			
@@ -86,20 +88,20 @@ namespace transfer_station
 		: ipcMessageName( ipcName ), ipcInterface( ipc ),
 		rosTopicName( rosName ), rosNode( ros )
 		{
+			define_message< IPCMsg >( ipcName, ipc );
+			
 			rosSubscriber = rosNode.subscribe<ROSMsg>( rosTopicName, 1, 
-													   boost::bind( &RouterR2I<ROSMsg,IPCMsg>::ROSCallback, this, _1 ) );			
-
-			IPCMsg::Define( ipcName, ipc );
+						boost::bind( &RouterR2I<ROSMsg,IPCMsg>::ROSCallback, this, _1 ) );			
 		}
 		
 		/*! \brief Callback used by ROS. */
 		void ROSCallback( const typename ROSMsg::ConstPtr& rosMsg )
 		{
 // 			std::cout << "Router received ROS message [" << rosTopicName << "]" << std::endl;
-			IPCMsg ipcMsg( ipcMessageName );
+			IPCMsg ipcMsg;
 			ros_to_ipc<ROSMsg, IPCMsg>( *rosMsg, ipcMsg );
 			
-			ipcInterface.Publish( ipcMsg );
+			ipcInterface.Publish( ipcMessageName, &ipcMsg );
 		}
 		
 	protected:
