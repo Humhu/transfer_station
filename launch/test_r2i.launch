@@ -1,5 +1,5 @@
 <launch>
-  <node pkg="transfer_station" type="ros_lcm_transfer_node" name="transfer" output="screen">
+  <node pkg="transfer_station" type="ros_ipc_transfer_node" name="transfer" output="screen">
     <rosparam>
       ipc_name: "transfer"
       routes:

@@ -1,0 +1,6 @@
+<launch>
+  <arg name="ns" default=""/>
+  <arg name="CENTRALHOST" default="localhost:1381"/>
+
+  <node pkg="transfer_station" type="ipc_start_central.sh" args="$(arg CENTRALHOST)" name="central"/>
+</launch>
