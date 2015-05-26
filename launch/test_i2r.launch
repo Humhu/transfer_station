@@ -10,7 +10,4 @@
           ipc_message: "chatter"
     </rosparam>
   </node>
-
-  <!-- node pkg="transfer_station" type="ipc_talker" name="IPC_Talker" output="screen"/ -->
-  <!-- node pkg="transfer_station" type="ros_listener" name="ROS_Listener" output="screen"/ -->
 </launch>

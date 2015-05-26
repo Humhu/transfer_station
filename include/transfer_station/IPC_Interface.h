@@ -178,7 +178,7 @@ namespace transfer_station
 		ipc.DefineFormat( get_format_name<T>(), get_format_specifier<T>() );
 	}
 	
-	/*! \brief Returns the specifier string for an IPC message type. Must be specialized. */
+	/*! \brief Returns the specifier string for an IPC message type. */
 	template< class T >
 	std::string get_message_specifier() 
 	{
