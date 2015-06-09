@@ -63,10 +63,10 @@ namespace transfer_station
 			IPC_disconnect();
 		}
 		
-		/*! \brief Check IPC callback queue forever. [may be only once] */
+		/*! \brief Check IPC callback queue forever. Should be called by a worker thread. */
 		void Spin()
 		{
-			IPC_listen( 0 );
+			IPC_dispatch();
 		}
 		
 		/*! \brief Define a message topic given the format string. */
