@@ -1,8 +1,9 @@
 <launch>
   <arg name="host" default="localhost"/>
-  <arg name="CENTRALHOST" default="localhost:1381"/>
+  <arg name="central_args" default="-p1381"/>
   
   <machine name="localhost" address="localhost"/>
 
-  <node machine="$(arg host)" pkg="transfer_station" type="ipc_start_central.sh" args="$(arg CENTRALHOST)" name="ipc_central"/>
+  <node machine="$(arg host)" pkg="transfer_station" type="ipc_start_central.sh"
+    args="$(arg central_args)" name="ipc_central" output="screen"/>
 </launch>
